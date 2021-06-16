@@ -7,9 +7,15 @@
         padding-right: 18px;
         border-right: 1px solid rgba(0, 0, 0, .12);
         width: 30%;
-        .list {
-            border: 1px solid rgba(0, 0, 0, .12);
-            margin: 8px 0px;
+        .selection-list-container {
+            height: calc(100% - 50px);
+            overflow: auto;
         }
+        .cancel-icon {
+            align-self: center;
+        }
+    }
+    .list-detail-container {
+        width: 70%;
     }
 }
