@@ -1,0 +1,27 @@
+<div class="note-container">
+    <div class="list-container">
+        <button mat-raised-button color="primary" (click)="onAdd()">Add</button>
+        <mat-selection-list [multiple]="false" (selectionChange)="onListSelection($event)" style="height: calc(100% - 50px);overflow: auto;">
+            <mat-list-option *ngFor="let folder of folders" [value]="folder" [selected]="folder.selected">
+                <div style="display:flex">
+                    <div style="width:93%;">
+                        <div mat-line style="padding:5px;">{{folder.title}}</div>
+                        <div mat-line style="padding:5px;"> {{folder.body}} </div>
+                    </div>
+                    <span class="material-icons" style="align-self: center;" (click)="onCancel(folder)">cancel</span>
+                </div>
+                <mat-divider></mat-divider>
+            </mat-list-option>
+        </mat-selection-list>
+        <!-- <mat-list class="list">
+            <mat-list-item *ngFor="let folder of folders">
+                <div mat-line style="padding:5px;">{{folder.title}}</div>
+                <div mat-line style="padding:5px;"> {{folder.body}} </div>
+                <mat-divider></mat-divider>
+            </mat-list-item>
+        </mat-list> -->
+    </div>
+    <div style="width:70%">
+        <app-note-detail [listData]="listData" (eSave)="onSave($event)"></app-note-detail>
+    </div>
+</div>

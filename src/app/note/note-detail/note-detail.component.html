@@ -1,0 +1,17 @@
+<div class="note-detail-container">
+    <div class="title-container">
+        <mat-form-field class="title-field-container">
+            <input matInput placeholder="Title" required [(ngModel)]="title">
+            <mat-hint style="color:red;" *ngIf="!title">Title is required</mat-hint>
+        </mat-form-field>
+    </div>
+    <div class="body-container">
+        <mat-form-field class="body-field-container">
+            <textarea matInput placeholder="Body" required [(ngModel)]="body"></textarea>
+            <mat-hint style="color:red;" *ngIf="!body">Body is required</mat-hint>
+        </mat-form-field>
+    </div>
+    <div class="action-button-container">
+        <button mat-raised-button color="primary" (click)="onSave()" [disabled]="!canSave">{{id ? 'Update' : 'Save'}}</button>
+    </div>
+</div>
