@@ -4,7 +4,6 @@ import { MatSelectionListChange } from '@angular/material/list';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
-import { LoginService } from '../login.service';
 import { NoteDetail } from './note';
 
 @Component({
@@ -16,37 +15,27 @@ export class NoteComponent {
 
     public listData: NoteDetail;
 
-    id: number = 1;
+    folders: NoteDetail[];
 
-    folders: NoteDetail[] = [
-        {
-            title: 'Test Title 1',
-            body: 'Test Body A',
-            id: this.id++
-        },
-        {
-            title: 'Test Title 2',
-            body: 'Test Body B',
-            id: this.id++
-        }
-    ];
-
-    constructor(public snackBar: MatSnackBar, private dialog: MatDialog, public loggedInService: LoginService, public router: Router) {
-        if (!this.loggedInService.getLogin) {
+    constructor(public snackBar: MatSnackBar, private dialog: MatDialog, public router: Router) {
+        if (!JSON.parse(localStorage.getItem('login'))) {
             this.router.navigate(['./'])
         }
+        this.folders = JSON.parse(localStorage.getItem('notes'))
     }
 
     public onSave(event: NoteDetail) {
         if (event.id) {
             const index = this.folders.findIndex(item => item.id === event.id);
             this.folders[index] = Object.assign({}, event);
+            localStorage.setItem('notes', JSON.stringify(this.folders));
         } else {
             if (this.folders.find((item) => item.title.toLowerCase() === event.title.toLowerCase() && item.body.toLowerCase() === event.body.toLowerCase())) {
                 this.snackBar.open('Duplicate note!!!', '', { duration: 2000 })
             } else {
-                event.id = this.id++;
+                event.id = this.folders[this.folders.length - 1].id++;
                 this.folders.push(event);
+                localStorage.setItem('notes', JSON.stringify(this.folders));
             }
         }
         this.onAdd();
@@ -65,6 +54,7 @@ export class NoteComponent {
         }).afterClosed().subscribe(result => {
             if (result) {
                 this.folders.splice(this.folders.findIndex((f) => f === folder), 1);
+                localStorage.setItem('notes', JSON.stringify(this.folders));
                 this.onAdd();
             }
         });
@@ -73,8 +63,8 @@ export class NoteComponent {
     public onAdd() {
         this.listData = {
             title: null,
-            body: null,
-            id: null
+            id: null,
+            body: null
         }
     }
 }

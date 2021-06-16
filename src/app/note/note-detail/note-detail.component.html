@@ -1,17 +1,17 @@
 <div class="note-detail-container">
     <div class="title-container">
         <mat-form-field class="title-field-container">
-            <input matInput placeholder="Title" required [(ngModel)]="title">
-            <mat-hint style="color:red;" *ngIf="!title">Title is required</mat-hint>
+            <input matInput placeholder="Title" [(ngModel)]="title" #title1="ngModel" name="title1" [required]="title1.dirty">
+            <mat-hint style="color:red;" *ngIf="!title && title1.dirty">Title is required</mat-hint>
         </mat-form-field>
     </div>
     <div class="body-container">
         <mat-form-field class="body-field-container">
-            <textarea matInput placeholder="Body" required [(ngModel)]="body"></textarea>
-            <mat-hint style="color:red;" *ngIf="!body">Body is required</mat-hint>
+            <textarea matInput placeholder="Body" [(ngModel)]="body" #body1="ngModel" [required]="body1.dirty"></textarea>
+            <mat-hint style="color:red;" *ngIf="!body && body1.dirty">Body is required</mat-hint>
         </mat-form-field>
     </div>
     <div class="action-button-container">
-        <button mat-raised-button color="primary" (click)="onSave()" [disabled]="!canSave">{{id ? 'Update' : 'Save'}}</button>
+        <button mat-raised-button color="primary" (click)="onSave(title1,body1)" [disabled]="!canSave">{{id ? 'Update' : 'Save'}}</button>
     </div>
 </div>

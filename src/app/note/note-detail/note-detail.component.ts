@@ -36,8 +36,10 @@ export class NoteDetailComponent implements OnChanges {
         return this.title && this.body && this.title.trim() && this.body.trim();
     }
 
-    public onSave() {
-        this.eSave.emit({title: this.title?.trim(), body: this.body?.trim(), id: this.id})
+    public onSave(title, body) {
+        this.eSave.emit({title: this.title?.trim(), body: this.body?.trim(), id: this.id});
+        title.control.markAsPristine();
+        body.control.markAsPristine();
     }
 
 }

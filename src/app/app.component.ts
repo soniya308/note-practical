@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoginService } from './login.service';
+import { NoteDetail } from './note/note';
 
 @Component({
   selector: 'app-root',
@@ -12,23 +12,42 @@ export class AppComponent {
 
   loggedIn: boolean;
 
-  constructor(public loginService: LoginService, public router: Router) {
-    this.loggedIn = this.isLoggedIn();
+  folders: NoteDetail[] = [
+    {
+      title: 'Test Title 1',
+      body: 'Test Body A',
+      id: 1
+    },
+    {
+      title: 'Test Title 2',
+      body: 'Test Body B',
+      id: 2
+    }
+  ];
+
+  constructor(public router: Router) {
+    this.loggedIn = JSON.parse(localStorage.getItem('login'));
+    if(this.loggedIn) {
+      this.login();
+    }
+  }
+
+  ngOnInit() {
+    if(!JSON.parse(localStorage.getItem('notes'))) {
+      localStorage.setItem('notes', JSON.stringify(this.folders));
+    }
   }
 
   public login() {
-    this.loginService.setLogin = true;
-    this.loggedIn = this.isLoggedIn();
+    this.loggedIn = true;
+    localStorage.setItem('login', JSON.stringify(true));
     this.router.navigate(['./note']);
   }
 
   public logout() {
-    this.loginService.setLogin = false;
-    this.loggedIn = this.isLoggedIn();
+    this.loggedIn = false;
+    localStorage.setItem('login', JSON.stringify(false));
     this.router.navigate(['./']);
   }
 
-  public isLoggedIn() {
-    return this.loginService.getLogin;
-  }
 }
